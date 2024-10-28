@@ -259,7 +259,11 @@ int InitRenderDevice()
 
     float lightAmbient[4] = { 2.0, 2.0, 2.0, 1.0 };
     float lightDiffuse[4] = { 1.0, 1.0, 1.0, 1.0 };
-    float lightPos[4]     = { 0.0, 0.0, 0.0, 1.0 };
+#ifdef __EMSCRIPTEN__
+    float lightPos[4] = { 0.35, 0.0, -1.0, 0.0 }; 
+#else
+    float lightPos[4] = { 0.0, 0.0, 0.0, 1.0 };
+#endif
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
