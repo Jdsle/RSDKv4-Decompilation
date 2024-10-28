@@ -4105,7 +4105,11 @@ void ProcessScript(int scriptCodeStart, int jumpTableStart, byte scriptEvent)
 #endif
                     case VAR_ENGINETRIALMODE: scriptEng.operands[i] = Engine.trialMode; break;
 #if !RETRO_REV00
+#ifdef __EMSCRIPTEN__
+                    case VAR_ENGINEDEVICETYPE: scriptEng.operands[i] = Engine.gameDeviceType; break;
+#else
                     case VAR_ENGINEDEVICETYPE: scriptEng.operands[i] = RETRO_DEVICETYPE; break;
+#endif
 #endif
 
 #if RETRO_REV03

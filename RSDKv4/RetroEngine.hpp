@@ -354,6 +354,7 @@ class RetroEngine
 public:
     RetroEngine()
     {
+#ifndef __EMSCRIPTEN__
         if (RETRO_GAMEPLATFORM == RETRO_STANDARD) {
             gamePlatform   = "STANDARD";
             gameDeviceType = RETRO_STANDARD;
@@ -362,6 +363,7 @@ public:
             gamePlatform   = "MOBILE";
             gameDeviceType = RETRO_MOBILE;
         }
+#endif
     }
 
 #if !RETRO_USE_ORIGINAL_CODE

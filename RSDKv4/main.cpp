@@ -18,7 +18,10 @@ EMSCRIPTEN_KEEPALIVE void RSDK_Initialize()
 EMSCRIPTEN_KEEPALIVE void RSDK_Configure(int value, int index) {
     switch (index) {
         case 0: Engine.plusEnabled = value; break;
-        case 1: Engine.gameDeviceType = value; break;
+        case 1: 
+            Engine.gamePlatform   = value ? "MOBILE" : "STANDARD";
+            Engine.gameDeviceType = value;
+         break;
     }
 }
 }
