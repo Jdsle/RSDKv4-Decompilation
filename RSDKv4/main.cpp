@@ -1,5 +1,30 @@
 #include "RetroEngine.hpp"
 
+#ifdef __EMSCRIPTEN__
+static bool looped = false;
+
+void LoopRSDK() { Engine.Run(); }
+extern "C" {
+EMSCRIPTEN_KEEPALIVE void RSDK_Initialize()
+{
+	Engine.Init();
+
+	if (!looped) {
+        looped = true;
+    	emscripten_set_main_loop(LoopRSDK, false, true);
+    }        
+}
+
+EMSCRIPTEN_KEEPALIVE void RSDK_Configure(int value, int index) {
+    switch (index) {
+        case 0: Engine.plusEnabled = value; break;
+        case 1: Engine.gameDeviceType = value; break;
+    }
+}
+}
+
+int main() { return 0; }
+#else
 #if !RETRO_USE_ORIGINAL_CODE
 
 #if RETRO_PLATFORM == RETRO_WIN
@@ -71,4 +96,5 @@ int main(int argc, char *argv[])
 
 #if RETRO_PLATFORM == RETRO_UWP
 int __stdcall wWinMain(HINSTANCE, HINSTANCE, PWSTR, int) { return SDL_WinRTRunApp(main, NULL); }
+#endif
 #endif

@@ -443,6 +443,11 @@ void RetroEngine::Init()
     renderFrameIndex = targetRefreshRate / lower;
     skipFrameIndex   = refreshRate / lower;
 
+#ifdef __EMSCRIPTEN__
+    // shouldn't SDL_INIT_EVERYTHING cover this?
+    SDL_Init(SDL_INIT_GAMECONTROLLER);
+#endif
+
     ReadSaveRAMData();
 
     if (Engine.gameType == GAME_SONIC1) {
@@ -530,12 +535,20 @@ void RetroEngine::Run()
     unsigned long long curTicks   = 0;
     unsigned long long prevTicks  = 0;
 
+#ifdef __EMSCRIPTEN__
+    if (running) {
+#else
     while (running) {
+#endif
 #if !RETRO_USE_ORIGINAL_CODE
         if (!vsync) {
             curTicks = SDL_GetPerformanceCounter();
             if (curTicks < prevTicks + targetFreq)
+#ifdef __EMSCRIPTEN__
+                return;
+#else
                 continue;
+#endif
             prevTicks = curTicks;
         }
 
@@ -599,22 +612,27 @@ void RetroEngine::Run()
 #endif
         }
     }
+#ifdef __EMSCRIPTEN__
+    else {
+#endif
+        ReleaseAudioDevice();
+        ReleaseRenderDevice();
+    #if !RETRO_USE_ORIGINAL_CODE
+        ReleaseInputDevices();
+    #if RETRO_USE_NETWORKING
+        DisconnectNetwork(true);
+    #endif
+        WriteSettings();
+    #if RETRO_USE_MOD_LOADER
+        SaveMods();
+    #endif
+    #endif
 
-    ReleaseAudioDevice();
-    ReleaseRenderDevice();
-#if !RETRO_USE_ORIGINAL_CODE
-    ReleaseInputDevices();
-#if RETRO_USE_NETWORKING
-    DisconnectNetwork(true);
-#endif
-    WriteSettings();
-#if RETRO_USE_MOD_LOADER
-    SaveMods();
-#endif
-#endif
-
-#if RETRO_USING_SDL1 || RETRO_USING_SDL2
-    SDL_Quit();
+    #if RETRO_USING_SDL1 || RETRO_USING_SDL2
+        SDL_Quit();
+    #endif
+#ifdef __EMSCRIPTEN__
+    }
 #endif
 }
 

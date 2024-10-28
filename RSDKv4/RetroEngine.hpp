@@ -32,6 +32,9 @@
 #if RETRO_USE_MOD_LOADER
 #include <regex>
 #endif
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 // ================
 // STANDARD TYPES
@@ -423,6 +426,10 @@ public:
 
     bool hasFocus  = true;
     int focusState = 0;
+#endif
+
+#ifdef __EMSCRIPTEN__
+    int plusEnabled = 0;
 #endif
 
     void Init();
