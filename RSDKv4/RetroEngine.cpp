@@ -1258,7 +1258,12 @@ bool RetroEngine::LoadGameConfig(const char *filePath)
     }
 
 #if RETRO_REV03
-    SetGlobalVariableByName("game.hasPlusDLC", !RSDK_AUTOBUILD);
+#ifdef __EMSCRIPTEN__
+        // disabled by default, can be enabled via settings
+        SetGlobalVariableByName("game.hasPlusDLC", Engine.plusEnabled ? 1 : 0);
+#else
+        SetGlobalVariableByName("game.hasPlusDLC", !RSDK_AUTOBUILD);
+#endif
 #endif
 
     // These need to be set every time its reloaded

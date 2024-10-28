@@ -158,13 +158,13 @@ void ProcessStage(void)
             stageMinutes                 = 0;
             stageMode                    = STAGEMODE_NORMAL;
 
-#if RSDK_AUTOBUILD
-            // Prevent playing as Amy if on autobuilds
-            if (GetGlobalVariableByName("PLAYER_AMY") && playerListPos == GetGlobalVariableByName("PLAYER_AMY"))
-                playerListPos = 0;
-            else if (GetGlobalVariableByName("PLAYER_AMY_TAILS") && playerListPos == GetGlobalVariableByName("PLAYER_AMY_TAILS"))
-                playerListPos = 0;
-#endif
+            if (!Engine.plusEnabled) {
+                // Prevent playing as Amy if on autobuilds
+                if (GetGlobalVariableByName("PLAYER_AMY") && playerListPos == GetGlobalVariableByName("PLAYER_AMY"))
+                    playerListPos = 0;
+                else if (GetGlobalVariableByName("PLAYER_AMY_TAILS") && playerListPos == GetGlobalVariableByName("PLAYER_AMY_TAILS"))
+                    playerListPos = 0;
+            }
 
 #if RETRO_USE_MOD_LOADER
             for (int m = 0; m < modList.size(); ++m) ScanModFolder(&modList[m]);
