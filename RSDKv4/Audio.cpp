@@ -46,6 +46,11 @@ SDL_AudioSpec audioDeviceFormat;
 
 int InitAudioPlayback()
 {
+#ifdef __EMSCRIPTEN__
+    // shouldn't SDL_INIT_EVERYTHING cover this?
+    SDL_Init(SDL_INIT_AUDIO);
+#endif
+
     StopAllSfx(); //"init"
 
 #if !RETRO_USE_ORIGINAL_CODE
