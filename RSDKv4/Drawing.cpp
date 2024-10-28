@@ -615,7 +615,11 @@ void SetScreenDimensions(int width, int height)
     SCREEN_CENTERX_F = aspect * SCREEN_CENTERY;
     SetPerspectiveMatrix(SCREEN_YSIZE * aspect, SCREEN_YSIZE_F, 0.0, 1000.0);
 #if RETRO_USING_OPENGL
+#ifdef __EMSCRIPTEN__
+    glViewport(0, 0, displaySettings.width * emscripten_get_device_pixel_ratio(), displaySettings.height * emscripten_get_device_pixel_ratio());
+#else
     glViewport(0, 0, displaySettings.width, displaySettings.height);
+#endif
 #endif
 
     Engine.useHighResAssets = displaySettings.height > (SCREEN_YSIZE * 2);
