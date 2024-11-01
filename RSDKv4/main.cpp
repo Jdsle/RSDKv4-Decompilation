@@ -11,7 +11,7 @@ EMSCRIPTEN_KEEPALIVE void RSDK_Initialize()
 
 	if (!looped) {
         looped = true;
-    	emscripten_set_main_loop(LoopRSDK, false, true);
+    	emscripten_set_main_loop(LoopRSDK, Engine.refreshRate, true);
     }        
 }
 
@@ -20,7 +20,7 @@ EMSCRIPTEN_KEEPALIVE void RSDK_Configure(int value, int index) {
         case 0: Engine.plusEnabled = value; break;
         case 1: 
             Engine.gamePlatform   = value ? "MOBILE" : "STANDARD";
-            Engine.gameDeviceType = value;
+            Engine.gameDeviceType = value ? 1 : 0;
          break;
     }
 }
