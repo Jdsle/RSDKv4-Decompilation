@@ -52,7 +52,7 @@ You will also need [Emscripten.](https://emscripten.org/docs/getting_started/dow
 In order to clone the repository, you need to install Git, which you can get [here](https://git-scm.com/downloads).
 
 Clone the repo **recursively**, using:
-`git clone --recursive https://github.com/Jdsle/RSDK-Library-v4`
+`git clone --recursive --single-branch --branch web https://github.com/Jdsle/RSDKv4-Decompilation`
 
 If you've already cloned the repo, run this command inside of the repository:
 ```git submodule update --init --recursive```
