@@ -47,6 +47,10 @@ void OptionsMenu_Create(void *objPtr)
     SetStringToFont(self->buttons[OPTIONSMENU_BUTTON_SETTINGS]->text, strSettings, FONT_LABEL);
     SetStringToFont(self->buttons[OPTIONSMENU_BUTTON_ABOUT]->text, strAbout, FONT_LABEL);
     SetStringToFont(self->buttons[OPTIONSMENU_BUTTON_CREDITS]->text, strStaffCredits, FONT_LABEL);
+#ifdef __EMSCRIPTEN__
+    ushort strExitEngine[] = { 'E', 'X', 'I', 'T', ' ', 'E', 'N', 'G', 'I', 'N', 'E', '\0' };
+    SetStringToFont(self->buttons[OPTIONSMENU_BUTTON_EXIT]->text, strExitEngine, FONT_LABEL);
+#endif
 }
 void OptionsMenu_Main(void *objPtr)
 {
@@ -69,8 +73,8 @@ void OptionsMenu_Main(void *objPtr)
             self->timer += (Engine.deltaTime + Engine.deltaTime);
             self->labelPtr->alpha = (256.0 * self->timer);
             if (self->timer > 1.0) {
-                self->timer      = 0.0;
-                self->state      = OPTIONSMENU_STATE_MAIN;
+                self->timer    = 0.0;
+                self->state    = OPTIONSMENU_STATE_MAIN;
                 keyPress.start = false;
                 keyPress.A     = false;
             }
@@ -181,6 +185,13 @@ void OptionsMenu_Main(void *objPtr)
                     self->state = OPTIONSMENU_STATE_SUBMENU;
                     CREATE_ENTITY(FadeScreen);
                     Engine.gameMode = ENGINE_INITDEVMENU;
+                }
+#endif
+
+#ifdef __EMSCRIPTEN__
+                if (self->selectedButton == OPTIONSMENU_BUTTON_EXIT) {
+                    ExitGame();
+                    return;
                 }
 #endif
             }

@@ -1306,12 +1306,7 @@ void NotifyCallback(int *callback, int *param1, int *param2, int *param3)
 }
 #endif
 
-void ExitGame() 
-{
-#ifndef __EMSCRIPTEN__
-    Engine.running = false; 
-#endif
-}
+void ExitGame() { Engine.running = false; }
 
 void FileExists(int *unused, const char *filePath)
 {

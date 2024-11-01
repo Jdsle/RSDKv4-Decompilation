@@ -617,21 +617,23 @@ void RetroEngine::Run()
 #endif
         ReleaseAudioDevice();
         ReleaseRenderDevice();
-    #if !RETRO_USE_ORIGINAL_CODE
+#if !RETRO_USE_ORIGINAL_CODE
         ReleaseInputDevices();
-    #if RETRO_USE_NETWORKING
+#if RETRO_USE_NETWORKING
         DisconnectNetwork(true);
-    #endif
+#endif
         WriteSettings();
-    #if RETRO_USE_MOD_LOADER
+#if RETRO_USE_MOD_LOADER
         SaveMods();
-    #endif
-    #endif
+#endif
+#endif
 
-    #if RETRO_USING_SDL1 || RETRO_USING_SDL2
+#if RETRO_USING_SDL1 || RETRO_USING_SDL2
         SDL_Quit();
-    #endif
+#endif
 #ifdef __EMSCRIPTEN__
+        emscripten_cancel_main_loop();
+        EM_ASM_({ window.location.href = window.location.href.substring(0, window.location.href.lastIndexOf('/')); }); 
     }
 #endif
 }

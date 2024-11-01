@@ -137,10 +137,8 @@ void ProcessStageSelect()
                 gameMenu[0].selection2 -= 2;
 
             int count = 15;
-#ifndef __EMSCRIPTEN__
 #if RETRO_USE_MOD_LOADER
             count += 2;
-#endif
 #endif
 
             if (gameMenu[0].selection2 > count)
@@ -197,7 +195,6 @@ void ProcessStageSelect()
                     SetTextMenu(DEVMENU_MODMENU);
                 }
 #endif
-#ifndef __EMSCRIPTEN__
                 else {
 #if RETRO_USE_MOD_LOADER
                     ExitGame();
@@ -205,7 +202,6 @@ void ProcessStageSelect()
                     Engine.running = false;
 #endif
                 }
-#endif
             }
             else if (keyPress.B) {
                 ClearGraphicsData();
@@ -535,10 +531,8 @@ void SetTextMenu(int sm)
             AddTextMenuEntry(&gameMenu[0], " ");
             AddTextMenuEntry(&gameMenu[0], "MODS");
 #endif
-#ifndef __EMSCRIPTEN__
             AddTextMenuEntry(&gameMenu[0], " ");
             AddTextMenuEntry(&gameMenu[0], "EXIT GAME");
-#endif
 #endif
             gameMenu[0].alignment        = 2;
             gameMenu[0].selectionCount   = 2;
