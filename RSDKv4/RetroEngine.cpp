@@ -534,7 +534,7 @@ void RetroEngine::Run()
     unsigned long long targetFreq = SDL_GetPerformanceFrequency() / Engine.refreshRate;
     unsigned long long curTicks   = 0;
     unsigned long long prevTicks  = 0;
-
+        
 #ifdef __EMSCRIPTEN__
     if (running) {
 #else

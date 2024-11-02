@@ -11,7 +11,7 @@ EMSCRIPTEN_KEEPALIVE void RSDK_Initialize()
 
 	if (!looped) {
         looped = true;
-    	emscripten_set_main_loop(LoopRSDK, Engine.refreshRate, true);
+    	emscripten_set_main_loop(LoopRSDK, false, true);
     }        
 }
 
